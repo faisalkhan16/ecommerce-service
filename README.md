@@ -268,18 +268,18 @@ volumes:
 
 ### Environment Variables
 
-| Variable                   | Description                         | Example                                          |
-|----------------------------|-------------------------------------|--------------------------------------------------|
-| SPRING_PROFILES_ACTIVE      | Active Spring profile               | prod                                             |
-| SERVER_PORT                 | Application server port             | 8081                                             |
-| POSTGRES_DB                 | PostgreSQL database name            | ecommerce_prod                                   |
-| POSTGRES_USER               | PostgreSQL username                 | postgres                                         |
-| POSTGRES_PASSWORD           | PostgreSQL password                 | postgres                                         |
-| POSTGRES_VOLUME             | Docker volume name for PostgreSQL   | postgres-data-prod                               |
-| REDIS_PORT                  | Redis server port                   | 6379                                             |
-| SPRING_REDIS_HOST           | Redis server host                   | redis                                            |
-| JWT_SECRET                  | JWT signing secret                  | pyj2QjD4mb7Rm7i4jo2Dx8XdTgmV5fIQ4JRORssXthc=   |
-| JWT_EXPIRATION_MINUTES      | JWT token validity in minutes       | 60                                               |
+| Variable                   | Description                         | Example                                      |
+|----------------------------|-------------------------------------|----------------------------------------------|
+| SPRING_PROFILES_ACTIVE      | Active Spring profile               | prod                                         |
+| SERVER_PORT                 | Application server port             | 8080                                         |
+| POSTGRES_DB                 | PostgreSQL database name            | ecommerce_prod                               |
+| POSTGRES_USER               | PostgreSQL username                 | postgres                                     |
+| POSTGRES_PASSWORD           | PostgreSQL password                 | postgres                                     |
+| POSTGRES_VOLUME             | Docker volume name for PostgreSQL   | postgres-data-prod                           |
+| REDIS_PORT                  | Redis server port                   | 6379                                         |
+| SPRING_REDIS_HOST           | Redis server host                   | redis                                        |
+| JWT_SECRET                  | JWT signing secret                  | pyj2QjD4mb7Rm7i4jo2Dx8XdTgmV5fIQ4JRORssXthc= |
+| JWT_EXPIRATION_MINUTES      | JWT token validity in minutes       | 60                                           |
 
 ---
 
@@ -309,8 +309,8 @@ Postman assets are available under the `postman/` folder:
 ### Set `base-url`
 In Postman, go to **Environments** → **ecommerce-app** and set:
 
-- `base-url` = `http://localhost:8080` (running locally with Maven)
-- `base-url` = `http://localhost:8081` (running via Docker Compose)
+- `base-url` = `http://localhost:8081` (running locally with Maven)
+- `base-url` = `http://localhost:8080` (running via Docker Compose)
 
 Click **Save**, then run requests from the collection.
 
