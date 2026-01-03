@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -72,6 +74,14 @@ public class GlobalExceptionHandler {
         log.warn("Access denied: {}", ex.getMessage());
         ErrorResponse error = new ErrorResponse("Access Denied", Instant.now());
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(new ApiResponse<>(false, error));
+    }
+
+    @ExceptionHandler({BadCredentialsException.class, InternalAuthenticationServiceException.class})
+    public ResponseEntity<ApiResponse<ErrorResponse>> handleBadCredentials(Exception ex) {
+        log.warn("Authentication failed: {}", ex.getMessage());
+        ErrorResponse error = new ErrorResponse("Invalid email or password", Instant.now());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ApiResponse<>(false, error));
     }
 

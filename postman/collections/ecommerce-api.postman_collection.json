@@ -546,6 +546,25 @@
 						"description": "# Login\n\nAuthenticate a user and retrieve a bearer token for subsequent requests.\n\n- Method: POST\n    \n- URL: `http://{{base-url}}/auth/login`\n    \n- Auth: None for this endpoint. It returns a token used as Bearer auth in other endpoints.\n    \n- Variables:\n    \n    - `{{base-url}}` – Base API URL for the current environment.\n        \n\n#### Request Body (JSON)\n\n```\n{\n  \"email\": \"string\",\n  \"password\": \"string\"\n}\n\n ```\n\nCommon values in this workspace:\n\n- email: `admin@example.com`, `premium@example.com`\n    \n- password: `abcd1234`\n    \n\n#### Successful Response (200)\n\n```\n{\n  \"success\": true,\n  \"data\": {\n    \"token\": \"<JWT>\",\n    \"token_type\": \"Bearer\"\n  }\n}\n\n ```\n\n#### Post-response behavior\n\nThis request's test script extracts `data.token` and saves it to the active environment as `auth-token`.\n\n#### Usage notes\n\n- After a successful login, reference the token in other requests using the Authorization header: `Bearer {{auth-token}}`.\n    \n- Make sure the active environment defines `base-url`.\n    \n\n#### Example curl\n\n```\ncurl -X POST \"http://{{base-url}}/auth/login\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"email\":\"admin@example.com\",\"password\":\"abcd1234\"}'\n\n ```"
 					},
 					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://{{base-url}}/auth/logout",
+							"protocol": "http",
+							"host": [
+								"{{base-url}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
