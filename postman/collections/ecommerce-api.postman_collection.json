@@ -26,7 +26,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\":\"Faisal\",\r\n    \"email\":\"faisalkhan11@gmail.com\",\r\n    \"role\":\"USER\"\r\n}",
+							"raw": "{\r\n    \"name\":\"Faisal\",\r\n    \"email\":\"faisalkhan12@gmail.com\",\r\n    \"role\":\"USER\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -42,7 +42,8 @@
 							"path": [
 								"users"
 							]
-						}
+						},
+						"description": "# Create User\n\nCreates a new user in the e-commerce API.\n\n- Method: POST\n    \n- URL: `http://{{base-url}}/users`\n    \n- Auth: Bearer token (uses `{{auth-token}}`)\n    \n\n## Required Headers\n\n- `Content-Type: application/json`\n    \n- `Authorization: Bearer {{auth-token}}`\n    \n\n## Path & Query Params\n\n- None\n    \n\n## Request Body\n\nJSON object with the following fields:\n\n``` json\n{\n  \"name\": \"string\",\n  \"email\": \"string (valid email)\",\n  \"role\": \"string (e.g., USER | PREMIUM_USER | ADMIN)\"\n}\n\n ```\n\nExample:\n\n``` json\n{\n  \"name\": \"Faisal\",\n  \"email\": \"faisalkhan12@gmail.com\",\n  \"role\": \"USER\"\n}\n\n ```\n\n## Responses\n\n- 201 Created — User created successfully\n    \n    - {\"success\": true, \"data\": {\"id\": 9, \"name\": \"Faisal\", \"email\": \"[faisalkhan12@gmail.com](https://mailto:faisalkhan12@gmail.com)\", \"role\": \"USER\"}}\n        \n- 400 Bad Request — Validation failed (missing/invalid fields)\n    \n- 401 Unauthorized — Missing or invalid bearer token\n    \n- 409 Conflict — Email already exists\n    \n- 500 Internal Server Error — Unexpected error\n    \n\n## Variables\n\n- `{{base-url}}` — Base URL of the API (set in the active environment: ecommerce-app)\n    \n- `{{auth-token}}` — Bearer token for authentication\n    \n\n## Notes\n\n- Ensure the active environment has `base-url` and `auth-token` defined.\n    \n- Roles may be constrained by the server. If unspecified by the backend, default is typically `USER`.\n    \n- Add tests later to assert status code and response schema."
 					},
 					"response": []
 				},
@@ -80,7 +81,8 @@
 								"users",
 								"1"
 							]
-						}
+						},
+						"description": "# Update User\n\nUpdate an existing user by ID.\n\n## URL\n\n`PUT http://{{base-url}}/users/:id`\n\n- Example with variables resolved: `http://{{base-url}}/users/1`\n    \n\n## Method\n\nPUT\n\n## Path Parameters\n\n- `id` (integer, required): The unique identifier of the user to update.\n    \n\n## Headers\n\n- `Content-Type: application/json`\n    \n- `Authorization: Bearer {{auth-token}}` (if the API requires bearer auth)\n    \n\n## Authentication\n\n- Uses a bearer token supplied via the `Authorization` header.\n    \n- Token variable: `{{auth-token}}` (defined in the active environment: ecommerce-app).\n    \n\n## Request Body\n\nJSON object with the fields to update for the user.\n\nSchema\n\n``` json\n{\n  \"name\": \"string\",\n  \"email\": \"string\",\n  \"role\": \"string\"\n}\n\n ```\n\nExample\n\n``` json\n{\n  \"name\": \"Faisal\",\n  \"email\": \"faisalkhan15@gmail.com\",\n  \"role\": \"PREMIUM_USER\"\n}\n\n ```\n\nNotes\n\n- Only include fields you wish to update. Server behavior for partial updates may vary; this request uses PUT which typically expects a full resource representation.\n    \n\n## Responses\n\n### 200 OK\n\nSuccessful update. Returns the updated user resource.\n\nExample\n\n``` json\n{\n  \"success\": true,\n  \"data\": {\n    \"id\": 1,\n    \"name\": \"Faisal\",\n    \"email\": \"faisalkhan15@gmail.com\",\n    \"role\": \"PREMIUM_USER\"\n  }\n}\n\n ```\n\n### 400 Bad Request\n\nValidation error. The request body failed validation.\n\nExample\n\n``` json\n{\n  \"success\": false,\n  \"error\": \"Invalid email format\"\n}\n\n ```\n\n### 401 Unauthorized\n\nMissing or invalid token.\n\nExample\n\n``` json\n{\n  \"success\": false,\n  \"error\": \"Unauthorized\"\n}\n\n ```\n\n### 404 Not Found\n\nUser with the provided `id` does not exist.\n\nExample\n\n``` json\n{\n  \"success\": false,\n  \"error\": \"User not found\"\n}\n\n ```\n\n## Variables\n\n- `{{base-url}}`: Base API URL (set in the ecommerce-app environment).\n    \n- `{{auth-token}}`: Bearer token for authorization.\n    \n\nEnsure the ecommerce-app environment is active so these variables resolve at runtime."
 					},
 					"response": []
 				},
@@ -109,7 +111,8 @@
 								"users",
 								"1"
 							]
-						}
+						},
+						"description": "# Delete User\n\nDeletes a user by ID. Use this to permanently remove a user resource from the system.\n\n- Method: `DELETE`\n    \n- URL: `{{base-url}}/users/:id` (example below uses `1`)\n    \n\n#### Path variables\n\n- `id` (number, required): The user ID to delete.\n    \n\n#### Authentication\n\nUse a valid bearer token.\n\nHeader\n\n```\nAuthorization: Bearer {{auth-token}}\n\n ```\n\n#### Expected responses\n\n- {\"success\": true, \"data\": \"User deleted successfully\"}\n    \n- `404 Not Found` – User does not exist.\n    \n- `401/403` – Missing or invalid authorization.\n    \n\n#### Notes\n\n- This operation is irreversible.\n    \n- Ensure `{{base-url}}` and `{{auth-token}}` are set in the `ecommerce-app` environment.\n    \n\n#### Example\n\nRequest: `DELETE {{base-url}}/users/1` with header `Authorization: Bearer {{auth-token}}`."
 					},
 					"response": []
 				},
@@ -138,7 +141,8 @@
 								"users",
 								"2"
 							]
-						}
+						},
+						"description": "# Get User by ID\n\nPurpose: Retrieve a single user resource by its unique identifier.\n\n- Method: GET\n    \n- URL: `http://{{base-url}}/users/:id`\n    \n    - Path variable `:id` is the numeric user ID.\n        \n\nAuthentication\n\n- Type: Bearer Token\n    \n- Token: `{{auth-token}}`\n    \n\nPath Parameters\n\n- id (required, number): The user ID to fetch.\n    \n\nQuery Parameters\n\n- None\n    \n\nHeaders\n\n- Content-Type: application/json (for consistency; not strictly required on GET)\n    \n- Authorization: `Bearer {{auth-token}}`\n    \n\nSample Success Response (200)\n\n``` json\n{\n  \"success\": true,\n  \"data\": {\n    \"id\": 2,\n    \"name\": \"Premium User\",\n    \"email\": \"remium@example.com\",\n    \"role\": \"PREMIUM_USER\"\n  }\n}\n\n ```\n\nPossible Error Responses\n\n- 401 Unauthorized: Missing/invalid token. Ensure `{{auth-token}}` is set and valid.\n    \n- 404 Not Found: No user exists for the provided `id`.\n    \n\nTesting Notes\n\n- No tests are defined yet for this request. Consider adding assertions for:\n    \n    - HTTP status is 200\n        \n    - Response has `success: true`\n        \n    - `data` contains expected keys (id, name, email, role) and types."
 					},
 					"response": []
 				},
@@ -181,22 +185,27 @@
 							"query": [
 								{
 									"key": "page",
-									"value": "0"
+									"value": "0",
+									"description": "Page number to retrieve (0-based index). Example: page=0 returns the first page."
 								},
 								{
 									"key": "size",
-									"value": "10"
+									"value": "10",
+									"description": "Number of records per page. Example: size=10."
 								},
 								{
 									"key": "sort_by",
-									"value": "id"
+									"value": "id",
+									"description": "Field name by which the results should be sorted. Example: createdAt, name, price."
 								},
 								{
 									"key": "direction",
-									"value": "ASC"
+									"value": "ASC",
+									"description": "Sorting direction. Allowed values: ASC or DESC. Default is ASC."
 								}
 							]
-						}
+						},
+						"description": "# Get All Users\n\nRetrieve a paginated list of users with optional sorting.\n\n## Endpoint\n\n- Method: `GET`\n    \n- URL: `http://{{base-url}}/users`\n    \n- Full sample with variables and defaults: `http://{{base-url}}/users?page=0&size=10&sort_by=id&direction=ASC`\n    \n\n## Authentication\n\n- Type: Bearer Token\n    \n- Token variable: `{{auth-token}}` (from the active environment: ecommerce-app)\n    \n\n## Query Parameters\n\n- `page` (integer, optional, default: `0`) — Zero-based page index to retrieve.\n    \n- `size` (integer, optional, default: `10`) — Number of records per page.\n    \n- `sort_by` (string, optional, default: `id`) — Field name to sort by (e.g., `id`, `name`, `createdAt`).\n    \n- `direction` (string, optional, default: `ASC`) — Sort direction. Allowed values: `ASC`, `DESC`.\n    \n\n## Sample Responses\n\n### 200 OK — Success\n\n``` json\n{\n  \"success\": true,\n  \"data\": {\n    \"content\": [\n      {\"id\": 1, \"name\": \"Faisal\", \"email\": \"faisalkhan15@gmail.com\", \"role\": \"PREMIUM_USER\"},\n      {\"id\": 2, \"name\": \"Premium User\", \"email\": \"remium@example.com\", \"role\": \"PREMIUM_USER\"},\n      {\"id\": 3, \"name\": \"Premium User\", \"email\": \"premium@example.com\", \"role\": \"PREMIUM_USER\"},\n      {\"id\": 4, \"name\": \"User 1\", \"email\": \"user1@example.com\", \"role\": \"USER\"},\n      {\"id\": 5, \"name\": \"User 2\", \"email\": \"user2@example.com\", \"role\": \"USER\"},\n      {\"id\": 6, \"name\": \"User 2\", \"email\": \"user3@example.com\", \"role\": \"USER\"},\n      {\"id\": 7, \"name\": \"Premium User 1\", \"email\": \"premium1@example.com\", \"role\": \"PREMIUM_USER\"},\n      {\"id\": 8, \"name\": \"Premium User 2\", \"email\": \"premium2@example.com\", \"role\": \"PREMIUM_USER\"},\n      {\"id\": 9, \"name\": \"Faisal\", \"email\": \"faisalkhan12@gmail.com\", \"role\": \"USER\"}\n    ],\n    \"pageable\": {\"pageNumber\": 0, \"pageSize\": 10, \"sort\": {\"sorted\": true, \"empty\": false, \"unsorted\": false}, \"offset\": 0, \"paged\": true, \"unpaged\": false},\n    \"last\": true,\n    \"totalPages\": 1,\n    \"totalElements\": 9,\n    \"first\": true,\n    \"size\": 10,\n    \"number\": 0,\n    \"sort\": {\"sorted\": true, \"empty\": false, \"unsorted\": false},\n    \"numberOfElements\": 9,\n    \"empty\": false\n  }\n}\n\n ```\n\n### 200 OK — Empty Page\n\n``` json\n{\n  \"success\": true,\n  \"data\": {\n    \"content\": [],\n    \"pageable\": {\"pageNumber\": 2, \"pageSize\": 10, \"sort\": {\"sorted\": true, \"empty\": false, \"unsorted\": false}, \"offset\": 20, \"paged\": true, \"unpaged\": false},\n    \"last\": true,\n    \"totalPages\": 2,\n    \"totalElements\": 20,\n    \"first\": false,\n    \"size\": 10,\n    \"number\": 2,\n    \"sort\": {\"sorted\": true, \"empty\": false, \"unsorted\": false},\n    \"numberOfElements\": 0,\n    \"empty\": true\n  }\n}\n\n ```\n\n### 401 Unauthorized\n\n``` json\n{\n  \"success\": false,\n  \"error\": \"Unauthorized\"\n}\n\n ```\n\n### 500 Internal Server Error\n\n``` json\n{\n  \"success\": false,\n  \"error\": \"Internal server error\"\n}\n\n ```\n\n## Notes on Pagination & Sorting\n\n- Pagination follows a zero-based index: the first page is `page=0`.\n    \n- Use `size` to control page length. Typical values: 10, 20, 50, 100.\n    \n- Use `sort_by` in combination with `direction` to order results. Multiple sort fields may or may not be supported depending on backend implementation.\n    \n- When `content` is empty, check `totalElements` and `totalPages` to decide whether to continue paginating.\n    \n\n## Variables\n\n- `{{base-url}}` — Base URL of the API.\n    \n- `{{auth-token}}` — Bearer token used for authorization."
 					},
 					"response": []
 				}
@@ -238,7 +247,8 @@
 							"path": [
 								"products"
 							]
-						}
+						},
+						"description": "# Purpose\n\nCreate a new product in the catalog.\n\n## Method & URL\n\n- POST http://{{base-url}}/products\n    \n\n## Authentication\n\n- Bearer Token using environment variable: `{{auth-token}}`\n    \n\n## Request Headers\n\n- Content-Type: application/json\n    \n- Authorization: Bearer {{auth-token}}\n    \n\n## Request Body\n\nSchema (example fields):\n\n```\n{\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"price\": number,\n  \"quantity\": number\n}\n\n ```\n\nExample:\n\n```\n{\n  \"name\": \"Phone\",\n  \"description\": \"Mobile Phone by Apple\",\n  \"price\": 100,\n  \"quantity\": 20000\n}\n\n ```\n\n## Success Response (200)\n\n```\n{\n  \"success\": true,\n  \"data\": {\n    \"id\": 4,\n    \"name\": \"Phone\",\n    \"description\": \"Mobile Phone by Apple\",\n    \"price\": 100,\n    \"quantity\": 20000\n  }\n}\n\n ```\n\n## Error Responses\n\n- {\"success\": false,\"error\": \"Validation failed\"}\n    \n- {\"success\": false,\"error\": \"Unauthorized\"}\n    \n\n## Notes\n\n- Uses environment variables:\n    \n    - `base-url` for the API host\n        \n    - `auth-token` for the bearer token\n        \n- Do not modify URL or body here; update environment variables instead."
 					},
 					"response": []
 				},
@@ -259,7 +269,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\":\"Phone\",\r\n    \"description\":\"Mobile Phone by Apple\",\r\n    \"price\":300,\r\n    \"quantity\":40\r\n}",
+							"raw": "{\r\n    \"name\":\"Phone\",\r\n    \"description\":\"Mobile Phone by Apple\",\r\n    \"price\":300,\r\n    \"quantity\":4000\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -267,16 +277,17 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{base-url}}/products/1",
+							"raw": "http://{{base-url}}/products/2",
 							"protocol": "http",
 							"host": [
 								"{{base-url}}"
 							],
 							"path": [
 								"products",
-								"1"
+								"2"
 							]
-						}
+						},
+						"description": "# Update Product\n\nUpdates an existing product by ID.\n\n- Method: PUT\n    \n- URL: `http://{{base-url}}/products/:id`\n    \n- Auth: Bearer token via `{{auth-token}}` (set in the active environment)\n    \n\n### Path parameters\n\n- `id` (integer, required): Unique product identifier. Example: `2`.\n    \n\n### Request headers\n\n- `Content-Type: application/json`\n    \n- `Authorization: Bearer {{auth-token}}`\n    \n\n### Request body\n\nJSON object containing fields to update. All fields optional unless enforced by server.\n\nSchema (informal):\n\n``` json\n{\n  \"name\": \"string\",\n  \"description\": \"string\",\n  \"price\": 0,\n  \"quantity\": 0\n}\n\n ```\n\nExample:\n\n``` json\n{\"name\":\"Phone\",\"description\":\"Mobile Phone by Apple\",\"price\":300,\"quantity\":4000}\n\n ```\n\n### Success response\n\n- Status: `200 OK`\n    \n- {\"success\": true,\"data\": { \"id\": 2, \"name\": \"Phone\", \"description\": \"Mobile Phone by Apple\", \"price\": 300, \"quantity\": 4000}}\n    \n\n### Error responses\n\n- `400 Bad Request`: Invalid payload.\n    \n- `401 Unauthorized`: Missing/invalid token. Ensure `{{auth-token}}` is set.\n    \n- `404 Not Found`: Product does not exist.\n    \n- `500 Internal Server Error`: Unexpected server error.\n    \n\n### Notes\n\n- Uses environment variables: `{{base-url}}`, `{{auth-token}}`.\n    \n- This request resides in the ecommerce-api collection and can be used in automated tests or monitors."
 					},
 					"response": []
 				},
@@ -314,7 +325,8 @@
 								"products",
 								"1"
 							]
-						}
+						},
+						"description": "# Delete Product\n\nDeletes a product by its ID. This endpoint is used to permanently remove a product from the catalog.\n\n### URL\n\n```\nDELETE {{base-url}}/products/:id\n\n ```\n\n- Path variables:\n    \n    - `id` (required): The numeric identifier of the product to delete.\n        \n\n### Authorization\n\n- Uses bearer token via environment variable. Ensure your environment defines `{{auth-token}}` and that the request's Authorization header or helper references it.\n    \n\n### Headers\n\n- `Authorization: Bearer {{auth-token}}`\n    \n- `Content-Type: application/json` (not required for this DELETE with empty body)\n    \n\n### Responses\n\n- `200 OK` – Product was deleted successfully.\n    \n    - {\"success\": true, \"data\": \"Product deleted successfully\"}\n        \n- `404 Not Found` – No product exists with the given ID.\n    \n    - {\"success\": false, \"error\": \"Product not found\"}\n        \n- `401 Unauthorized` – Missing or invalid token.\n    \n- `500 Internal Server Error` – Server-side error.\n    \n\n### Notes\n\n- Ensure `{{base-url}}` points to the correct environment (e.g., staging or production).\n    \n- This request intentionally has no body.\n    \n\n### Example\n\n```\nDELETE {{base-url}}/products/1\nAuthorization: Bearer {{auth-token}}\n\n ```"
 					},
 					"response": []
 				},
@@ -355,7 +367,8 @@
 								"products",
 								"2"
 							]
-						}
+						},
+						"description": "# Get Product by ID\n\nRetrieve a single product resource by its numeric ID.\n\n- Method: GET\n    \n- URL: `{{base-url}}/products/:id`\n    \n- Path params:\n    \n    - `id` (number, required) — The product identifier.\n        \n- Auth: Bearer token via `{{auth-token}}` variable (set in environment)\n    \n- Headers:\n    \n    - `Authorization: Bearer {{auth-token}}`\n        \n    - `Accept: application/json`\n        \n\nVariables\n\n- `{{base-url}}` — Base URL of the ecommerce API (e.g., [https://api.example.com](https://api.example.com))\n    \n- `{{auth-token}}` — Access token for authenticated requests\n    \n\nSuccess Response (200)\n\n```\n{\n  \"success\": true,\n  \"data\": {\n    \"id\": 2,\n    \"name\": \"Android Phone\",\n    \"description\": \"Mobile Phone by Android\",\n    \"price\": 100,\n    \"quantity\": 19988\n  }\n}\n\n ```\n\nError Responses\n\n- 401 Unauthorized — Missing/invalid token\n    \n- 404 Not Found — Product with the specified ID does not exist\n    \n\nNotes\n\n- Ensure the `{{base-url}}` and `{{auth-token}}` environment variables are set before sending the request.\n    \n- This request currently targets product ID 2 at `http://{{base-url}}/products/2`.\n    \n\nExample cURL\n\n``` bash\ncurl -X GET \"http://{{base-url}}/products/2\" \\\n  -H \"Authorization: Bearer {{auth-token}}\" \\\n  -H \"Accept: application/json\"\n\n ```"
 					},
 					"response": []
 				},
@@ -387,7 +400,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{base-url}}/products?name=&min_price=&max_price&is_available&page=0&size=10&sort_by=id&direction=ASC",
+							"raw": "http://{{base-url}}/products?name=&min_price=&max_price&is_available=&page=0&size=10&sort_by=id&direction=ASC",
 							"protocol": "http",
 							"host": [
 								"{{base-url}}"
@@ -398,38 +411,47 @@
 							"query": [
 								{
 									"key": "name",
-									"value": ""
+									"value": "",
+									"description": "Filter results by product name (supports partial or full match)."
 								},
 								{
 									"key": "min_price",
-									"value": ""
+									"value": "",
+									"description": "Minimum price value to filter results."
 								},
 								{
 									"key": "max_price",
-									"value": null
+									"value": null,
+									"description": "Maximum price value to filter results."
 								},
 								{
 									"key": "is_available",
-									"value": null
+									"value": "",
+									"description": "Filter by availability status. true returns only available items, false returns unavailable items."
 								},
 								{
 									"key": "page",
-									"value": "0"
+									"value": "0",
+									"description": "Page number to retrieve (0-based index). Example: page=0 returns the first page."
 								},
 								{
 									"key": "size",
-									"value": "10"
+									"value": "10",
+									"description": "Number of records per page. Example: size=10."
 								},
 								{
 									"key": "sort_by",
-									"value": "id"
+									"value": "id",
+									"description": "Field name by which the results should be sorted. Example: createdAt, name, price."
 								},
 								{
 									"key": "direction",
-									"value": "ASC"
+									"value": "ASC",
+									"description": "Sorting direction. Allowed values: ASC or DESC. Default is ASC."
 								}
 							]
-						}
+						},
+						"description": "# Get Products (Paginated)\n\n## Summary\n\nRetrieve a paginated list of products with optional filtering, sorting, and availability flags.\n\n---\n\n## Endpoint\n\n---\n\n## Query Parameters\n\n| Name | Type | Default | Description |\n| --- | --- | --- | --- |\n| `name` | string | empty | Filter by product name (partial or full match).  <br>Example: `name=Phone` |\n| `min_price` | number | empty | Minimum price filter.  <br>Example: `min_price=100` |\n| `max_price` | number | empty | Maximum price filter.  <br>Example: `max_price=500` |\n| `is_available` | boolean | empty | Filter by availability (`true` |\n| `page` | integer | `0` | Page index (0-based).  <br>Example: `page=0` |\n| `size` | integer | `10` | Number of records per page.  <br>Example: `size=10` |\n| `sort_by` | string | `id` | Field to sort by (e.g., `id`, `name`, `price`).  <br>Example: `sort_by=price` |\n| `direction` | string | `ASC` | Sort direction (`ASC` |\n\n---\n\n## Authentication\n\n- **Bearer Token required**\n    \n- Set the `Authorization` header:\n    \n\n---\n\n## Sample Success Response (200 OK)\n\n``` json\n{\n  \"success\": true,\n  \"data\": {\n    \"content\": [\n      {\n        \"id\": 2,\n        \"name\": \"Android Phone\",\n        \"description\": \"Mobile Phone by Android\",\n        \"price\": 100,\n        \"quantity\": 19988\n      },\n      {\n        \"id\": 3,\n        \"name\": \"Sumsung Phone\",\n        \"description\": \"Mobile Phone by Sumsung\",\n        \"price\": 100,\n        \"quantity\": 20000\n      },\n      {\n        \"id\": 4,\n        \"name\": \"Phone\",\n        \"description\": \"Mobile Phone by Apple\",\n        \"price\": 100,\n        \"quantity\": 20000\n      }\n    ],\n    \"pageable\": {\n      \"pageNumber\": 0,\n      \"pageSize\": 10,\n      \"sort\": {\n        \"sorted\": true,\n        \"empty\": false,\n        \"unsorted\": false\n      },\n      \"offset\": 0,\n      \"paged\": true,\n      \"unpaged\": false\n    },\n    \"last\": true,\n    \"totalElements\": 3,\n    \"totalPages\": 1,\n    \"first\": true,\n    \"size\": 10,\n    \"number\": 0,\n    \"sort\": {\n      \"sorted\": true,\n      \"empty\": false,\n      \"unsorted\": false\n    },\n    \"numberOfElements\": 3,\n    \"empty\": false\n  }\n}\n\n ```\n\nStartFragment\n\n## Pagination\n\n- Use `page` (0-based) and `size` to control pagination.\n    \n- Response metadata includes:\n    \n    - `pageable`\n        \n    - `totalElements`\n        \n    - `totalPages`\n        \n    - `first`, `last`\n        \n    - `numberOfElements`\n        \n\n---\n\n## Sorting\n\n- Use `sort_by` and `direction` (`ASC` | `DESC`)\n    \n- Sorting state is returned under:\n    \n    - `data.sort`\n        \n    - `data.pageable.sort`\n        \n\n---\n\n## Error Responses\n\n| Status Code | Description |\n| --- | --- |\n| **400 Bad Request** | Invalid query parameter values (e.g., non-numeric `min_price`, negative `page` or `size`) |\n| **401 Unauthorized** | Missing or invalid Bearer token |\n| **500 Internal Server Error** | Unexpected server error |\n\n---\n\n## Usage Examples\n\n### Get first page (default size), sorted by ID (ASC)\n\nEndFragment\n\nStartFragment`GET {{base-url}}/products?page=0&size=10&sort_by=id&direction=ASC`EndFragment\n\nStartFragmentSearch by name and price rangeEndFragment\n\nGET {{base-url}}/products?name=Phone&min_price=100&max_price=500\n\nStartFragmentSearch by name and price rangeEndFragment\n\nGET {{base-url}}/products?name=Phone&min_price=100&max_price=500\n\nStartFragmentGet only available products, sorted by price (DESC)EndFragment\n\nStartFragment`GET {{base-url}}/products?is_available=true&sort_by=price&direction=DESC`EndFragment"
 					},
 					"response": []
 				}
@@ -471,7 +493,8 @@
 							"path": [
 								"orders"
 							]
-						}
+						},
+						"description": "# Place Order\n\nCreates a new order for the authenticated user.\n\n- Method: `POST`\n    \n- URL: `http://{{base-url}}/orders`\n    \n- Auth: Bearer token using `{{auth-token}}` (set in the active environment)\n    \n- Content-Type: `application/json`\n    \n\n### Request body\n\nSend a JSON object with an array of items. Each item contains a product_id and quantity.\n\n``` json\n{\n  \"items\": [\n    { \"product_id\": 1, \"quantity\": 2 },\n    { \"product_id\": 2, \"quantity\": 4 }\n  ]\n}\n\n ```\n\nSchema (guide):\n\n``` json\n{\n  \"type\": \"object\",\n  \"properties\": {\n    \"items\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"product_id\": { \"type\": \"integer\", \"enum\": [1,2,8,9] },\n          \"quantity\": { \"type\": \"integer\", \"enum\": [2,4,5,6] }\n        },\n        \"required\": [\"product_id\", \"quantity\"]\n      }\n    }\n  },\n  \"required\": [\"items\"]\n}\n\n ```\n\n### Successful response\n\nOn success, returns 201 Created with the new order details.\n\n``` json\n{\n  \"success\": true,\n  \"data\": {\n    \"order_id\": 3,\n    \"user_id\": 1,\n    \"total\": 570,\n    \"total_discount\": 30,\n    \"created_at\": \"2026-01-03T02:51:42.760575467Z\",\n    \"items\": [\n      { \"product_id\": 1, \"quantity\": 2, \"unit_price\": 100 },\n      { \"product_id\": 2, \"quantity\": 4, \"unit_price\": 100 }\n    ]\n  }\n}\n\n ```\n\n### Notes\n\n- Uses `{{base-url}}` and requires `{{auth-token}}` in the environment.\n    \n- Ensure `Content-Type: application/json` header is present."
 					},
 					"response": []
 				}
@@ -519,7 +542,8 @@
 								"auth",
 								"login"
 							]
-						}
+						},
+						"description": "# Login\n\nAuthenticate a user and retrieve a bearer token for subsequent requests.\n\n- Method: POST\n    \n- URL: `http://{{base-url}}/auth/login`\n    \n- Auth: None for this endpoint. It returns a token used as Bearer auth in other endpoints.\n    \n- Variables:\n    \n    - `{{base-url}}` – Base API URL for the current environment.\n        \n\n#### Request Body (JSON)\n\n```\n{\n  \"email\": \"string\",\n  \"password\": \"string\"\n}\n\n ```\n\nCommon values in this workspace:\n\n- email: `admin@example.com`, `premium@example.com`\n    \n- password: `abcd1234`\n    \n\n#### Successful Response (200)\n\n```\n{\n  \"success\": true,\n  \"data\": {\n    \"token\": \"<JWT>\",\n    \"token_type\": \"Bearer\"\n  }\n}\n\n ```\n\n#### Post-response behavior\n\nThis request's test script extracts `data.token` and saves it to the active environment as `auth-token`.\n\n#### Usage notes\n\n- After a successful login, reference the token in other requests using the Authorization header: `Bearer {{auth-token}}`.\n    \n- Make sure the active environment defines `base-url`.\n    \n\n#### Example curl\n\n```\ncurl -X POST \"http://{{base-url}}/auth/login\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"email\":\"admin@example.com\",\"password\":\"abcd1234\"}'\n\n ```"
 					},
 					"response": []
 				}
