@@ -1,0 +1,48 @@
+server:
+  port: ${SERVER_PORT:8081}
+
+spring:
+  application:
+    name: ecommerce_service
+  datasource:
+    url: ${DATASOURCE_URL:jdbc:postgresql://localhost:5432/ecommerce_dev}
+    driver-class-name: org.postgresql.Driver
+    username: ${DATASOURCE_USERNAME:postgres}
+    password: ${DATASOURCE_PASSWORD:postgres}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    validate-on-migrate: false
+  cache:
+    type: ${CACHE_TYPE:redis}
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+
+security:
+  jwt:
+    secret: ${JWT_SECRET:pyj2QjD4mb7Rm7i4jo2Dx8XdTgmV5fIQ4JRORssXthc=}
+    expiration-minutes: ${JWT_EXPIRATION_MINUTES:60}
+
+logging:
+  level:
+    org.hibernate.SQL: ERROR
+    org.hibernate.orm.jdbc.bind: ERROR
+    org.flywaydb: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n"
+  file:
+    name: logs/ecommerce-service.log
+
+springdoc:
+  swagger-ui:
+    defaultModelsExpandDepth: -1
