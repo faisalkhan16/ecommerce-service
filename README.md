@@ -309,7 +309,7 @@ Postman assets are available under the `postman/` folder:
 ### Set `base-url`
 In Postman, go to **Environments** → **ecommerce-app** and set:
 
-- `base-url` = `http://localhost:8081` (running locally with Maven)
+- `base-url` = `http://localhost:8080` (running locally with Maven)
 - `base-url` = `http://localhost:8080` (running via Docker Compose)
 
 Click **Save**, then run requests from the collection.
