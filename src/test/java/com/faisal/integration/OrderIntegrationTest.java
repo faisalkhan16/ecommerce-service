@@ -91,6 +91,39 @@ class OrderIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
+    void placeOrder_shouldSucceed_applyDiscountForPremiumUser() throws Exception {
+        OrderItemRequest itemRequest = new OrderItemRequest(testProduct.getId(), 2);
+        CreateOrderRequest orderRequest = new CreateOrderRequest(List.of(itemRequest));
+
+        mockMvc.perform(post("/orders")
+                        .with(SecurityMockMvcRequestPostProcessors.jwt()
+                                .authorities(Objects.requireNonNull(new RolesClaimConverter().convert(
+                                        Jwt.withTokenValue("token")
+                                                .header("alg", "none")
+                                                .claim("roles", List.of("PREMIUM_USER"))
+                                                .build()
+                                )))
+                                .jwt(jwt -> jwt
+                                        .claim("userId", testUser.getId())
+                                        .claim("roles", List.of("PREMIUM_USER"))
+                                )
+                        )
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(orderRequest)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.data.user_id").value(testUser.getId()))
+                .andExpect(jsonPath("$.data.total").value(180.0))
+                .andExpect(jsonPath("$.data.total_discount").value(20.0));
+
+
+        assertThat(orderRepository.findAll()).hasSize(1);
+
+        Product updatedProduct = productRepository.findById(testProduct.getId()).orElseThrow();
+        assertThat(updatedProduct.getQuantity()).isEqualTo(8);
+    }
+
+    @Test
     void placeOrder_insufficientStock_shouldFail() throws Exception {
         OrderItemRequest itemRequest = new OrderItemRequest(testProduct.getId(), 20);
         CreateOrderRequest orderRequest = new CreateOrderRequest(List.of(itemRequest));
