@@ -3,6 +3,7 @@ package com.faisal.unit.controller;
 import com.faisal.controller.AuthController;
 import com.faisal.config.JwtBlacklistFilter;
 import com.faisal.dto.request.LoginRequest;
+import com.faisal.dto.response.LoginResponse;
 import com.faisal.service.AuthService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -41,17 +42,21 @@ class AuthControllerTest {
     @Test
     void login_shouldReturn200_whenPayloadIsValid() throws Exception {
         LoginRequest request = new LoginRequest("test@mail.com", "password");
-        String token = "jwt-token";
-        when(authService.login(request.email(), request.password())).thenReturn(token);
+
+        LoginResponse response = new LoginResponse("jwt-token", "Bearer");
+
+        when(authService.login(request.email(), request.password()))
+                .thenReturn(response);
 
         mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data.token").value(token))
+                .andExpect(jsonPath("$.data.token").value("jwt-token"))
                 .andExpect(jsonPath("$.data.token_type").value("Bearer"));
     }
+
 
     @Test
     void login_shouldReturn400_whenEmailIsInvalid() throws Exception {

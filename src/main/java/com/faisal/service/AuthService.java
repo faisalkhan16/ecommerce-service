@@ -1,5 +1,6 @@
 package com.faisal.service;
 
+import com.faisal.dto.response.LoginResponse;
 import com.faisal.enums.Role;
 import com.faisal.exception.BadRequestException;
 import com.faisal.model.User;
@@ -45,7 +46,7 @@ public class AuthService {
         this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String login(String email, String password) {
+    public LoginResponse login(String email, String password) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
 
         User user = userRepository.findByEmail(email)
@@ -54,7 +55,7 @@ public class AuthService {
         Role role = user.getRole();
         Long userId = user.getId();
 
-        return jwtService.generateToken(email, role,userId);
+        return new LoginResponse(jwtService.generateToken(email, role,userId), "Bearer");
     }
 
     public void logout(String authorizationHeader) {

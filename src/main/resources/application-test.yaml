@@ -12,3 +12,14 @@ spring:
 security:
   jwt:
     secret: pyj2QjD4mb7Rm7i4jo2Dx8XdTgmV5fIQ4JRORssXthc=
+
+app:
+  discounts:
+    high-line-item:
+      threshold: 100.00
+      amount: 50.00
+    high-value-order:
+      threshold: 500.00
+      rate: 0.05
+    premium-user:
+      rate: 0.10
