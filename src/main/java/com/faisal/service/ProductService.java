@@ -128,6 +128,8 @@ public class ProductService {
             throw new BadRequestException("Quantity must be at least 1");
         }
 
+        // First DB call: fetch the product to check existence, deletion status, and available stock.
+        // We need this because we cannot reduce stock for a product that doesn't exist or is deleted.
         Product product = productRepository.findById(productId)
                 .filter(p -> !p.isDeleted())
                 .orElseThrow(() -> new ResourceNotFoundException("Product with ID " + productId + " not found"));
@@ -136,10 +138,17 @@ public class ProductService {
             throw new BadRequestException("Insufficient stock for product: " + product.getName());
         }
 
+        // Second DB call: update the stock by subtracting the requested quantity.
+        // This is done in a separate call (via save) to ensure that the quantity in the database reflects
+        // the reservation atomically. We cannot rely on the quantity in the OrderItemRequest because
+        // the request does not contain the actual price or stock details of the product.
         product.setQuantity(product.getQuantity() - quantity);
         productRepository.save(product);
 
+        // Return the price of the product. This requires fetching it from the DB because
+        // during order booking, the price is not available in the OrderItemRequest.
         log.info("Reserved stock productId={}, qty={}, price={}", productId, quantity, product.getPrice());
         return product.getPrice();
     }
+
 }

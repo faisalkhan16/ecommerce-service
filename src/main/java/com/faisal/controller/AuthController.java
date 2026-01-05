@@ -31,8 +31,7 @@ public class AuthController {
             @Parameter(description = "Login request payload containing email and password.")
             @Valid @RequestBody LoginRequest request
     ) {
-        String token = authService.login(request.email(), request.password());
-        return ResponseEntity.ok(new ApiResponse<>(true, new LoginResponse(token, "Bearer")));
+        return ResponseEntity.ok(new ApiResponse<>(true,authService.login(request.email(), request.password())));
     }
 
     @PostMapping("/logout")

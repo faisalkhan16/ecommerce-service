@@ -46,3 +46,14 @@ logging:
 springdoc:
   swagger-ui:
     defaultModelsExpandDepth: -1
+
+app:
+  discounts:
+    high-line-item:
+      threshold: 1000.00
+      amount: 50.00
+    high-value-order:
+      threshold: 500.00
+      rate: 0.05
+    premium-user:
+      rate: 0.10

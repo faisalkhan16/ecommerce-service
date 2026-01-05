@@ -24,3 +24,4 @@ public class RolesClaimConverter implements Converter<Jwt, Collection<GrantedAut
         return List.of();
     }
 }
+

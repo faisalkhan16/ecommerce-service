@@ -1,5 +1,6 @@
 package com.faisal.unit.service;
 
+import com.faisal.dto.response.LoginResponse;
 import com.faisal.enums.Role;
 import com.faisal.exception.BadRequestException;
 import com.faisal.model.User;
@@ -60,17 +61,24 @@ class AuthServiceTest {
         String email = "test@example.com";
         String password = "password";
         String token = "jwt-token";
+
         User user = mock(User.class);
         when(user.getRole()).thenReturn(Role.USER);
         when(user.getId()).thenReturn(1L);
+
         when(userRepository.findByEmail(email)).thenReturn(Optional.of(user));
         when(jwtService.generateToken(email, Role.USER, 1L)).thenReturn(token);
 
-        String result = authService.login(email, password);
+        LoginResponse response = authService.login(email, password);
 
-        assertThat(result).isEqualTo(token);
-        verify(authenticationManager).authenticate(any(UsernamePasswordAuthenticationToken.class));
+        assertThat(response).isNotNull();
+        assertThat(response.token()).isEqualTo(token);
+        assertThat(response.tokenType()).isEqualTo("Bearer");
+
+        verify(authenticationManager)
+                .authenticate(any(UsernamePasswordAuthenticationToken.class));
     }
+
 
     @Test
     void login_shouldThrowException_whenUserNotFound() {
